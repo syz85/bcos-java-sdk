@@ -22,38 +22,7 @@ import org.fisco.bcos.sdk.client.protocol.request.GenerateGroupParam;
 import org.fisco.bcos.sdk.client.protocol.request.JsonRpcMethods;
 import org.fisco.bcos.sdk.client.protocol.request.JsonRpcRequest;
 import org.fisco.bcos.sdk.client.protocol.request.Transaction;
-import org.fisco.bcos.sdk.client.protocol.response.BcosBlock;
-import org.fisco.bcos.sdk.client.protocol.response.BcosBlockHeader;
-import org.fisco.bcos.sdk.client.protocol.response.BcosTransaction;
-import org.fisco.bcos.sdk.client.protocol.response.BcosTransactionReceipt;
-import org.fisco.bcos.sdk.client.protocol.response.BcosTransactionReceiptsDecoder;
-import org.fisco.bcos.sdk.client.protocol.response.BlockHash;
-import org.fisco.bcos.sdk.client.protocol.response.BlockNumber;
-import org.fisco.bcos.sdk.client.protocol.response.Call;
-import org.fisco.bcos.sdk.client.protocol.response.Code;
-import org.fisco.bcos.sdk.client.protocol.response.ConsensusStatus;
-import org.fisco.bcos.sdk.client.protocol.response.GenerateGroup;
-import org.fisco.bcos.sdk.client.protocol.response.GroupList;
-import org.fisco.bcos.sdk.client.protocol.response.GroupPeers;
-import org.fisco.bcos.sdk.client.protocol.response.NodeIDList;
-import org.fisco.bcos.sdk.client.protocol.response.NodeInfo;
-import org.fisco.bcos.sdk.client.protocol.response.ObserverList;
-import org.fisco.bcos.sdk.client.protocol.response.PbftView;
-import org.fisco.bcos.sdk.client.protocol.response.Peers;
-import org.fisco.bcos.sdk.client.protocol.response.PendingTransactions;
-import org.fisco.bcos.sdk.client.protocol.response.PendingTxSize;
-import org.fisco.bcos.sdk.client.protocol.response.QueryGroupStatus;
-import org.fisco.bcos.sdk.client.protocol.response.RecoverGroup;
-import org.fisco.bcos.sdk.client.protocol.response.RemoveGroup;
-import org.fisco.bcos.sdk.client.protocol.response.SealerList;
-import org.fisco.bcos.sdk.client.protocol.response.SendTransaction;
-import org.fisco.bcos.sdk.client.protocol.response.StartGroup;
-import org.fisco.bcos.sdk.client.protocol.response.StopGroup;
-import org.fisco.bcos.sdk.client.protocol.response.SyncStatus;
-import org.fisco.bcos.sdk.client.protocol.response.SystemConfig;
-import org.fisco.bcos.sdk.client.protocol.response.TotalTransactionCount;
-import org.fisco.bcos.sdk.client.protocol.response.TransactionReceiptWithProof;
-import org.fisco.bcos.sdk.client.protocol.response.TransactionWithProof;
+import org.fisco.bcos.sdk.client.protocol.response.*;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.eventsub.EventResource;
 import org.fisco.bcos.sdk.model.NodeVersion;
@@ -793,10 +762,25 @@ public class ClientImpl implements Client {
     }
 
     @Override
+    public LightList getLightList() {
+        return this.jsonRpcService.sendRequestToGroup(
+                new JsonRpcRequest(JsonRpcMethods.GET_LIGHT_LIST, Arrays.asList(this.groupId)),
+                LightList.class);
+    }
+
+    @Override
     public void getObserverList(RespCallback<ObserverList> callback) {
         this.jsonRpcService.asyncSendRequestToGroup(
                 new JsonRpcRequest(JsonRpcMethods.GET_OBSERVER_LIST, Arrays.asList(this.groupId)),
                 ObserverList.class,
+                callback);
+    }
+
+    @Override
+    public void getLightList(RespCallback<LightList> callback) {
+        this.jsonRpcService.asyncSendRequestToGroup(
+                new JsonRpcRequest(JsonRpcMethods.GET_LIGHT_LIST, Arrays.asList(this.groupId)),
+                LightList.class,
                 callback);
     }
 

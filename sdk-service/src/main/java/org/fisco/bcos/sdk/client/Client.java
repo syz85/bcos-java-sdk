@@ -20,38 +20,7 @@ import java.util.List;
 import java.util.Set;
 import org.fisco.bcos.sdk.channel.Channel;
 import org.fisco.bcos.sdk.client.protocol.request.Transaction;
-import org.fisco.bcos.sdk.client.protocol.response.BcosBlock;
-import org.fisco.bcos.sdk.client.protocol.response.BcosBlockHeader;
-import org.fisco.bcos.sdk.client.protocol.response.BcosTransaction;
-import org.fisco.bcos.sdk.client.protocol.response.BcosTransactionReceipt;
-import org.fisco.bcos.sdk.client.protocol.response.BcosTransactionReceiptsDecoder;
-import org.fisco.bcos.sdk.client.protocol.response.BlockHash;
-import org.fisco.bcos.sdk.client.protocol.response.BlockNumber;
-import org.fisco.bcos.sdk.client.protocol.response.Call;
-import org.fisco.bcos.sdk.client.protocol.response.Code;
-import org.fisco.bcos.sdk.client.protocol.response.ConsensusStatus;
-import org.fisco.bcos.sdk.client.protocol.response.GenerateGroup;
-import org.fisco.bcos.sdk.client.protocol.response.GroupList;
-import org.fisco.bcos.sdk.client.protocol.response.GroupPeers;
-import org.fisco.bcos.sdk.client.protocol.response.NodeIDList;
-import org.fisco.bcos.sdk.client.protocol.response.NodeInfo;
-import org.fisco.bcos.sdk.client.protocol.response.ObserverList;
-import org.fisco.bcos.sdk.client.protocol.response.PbftView;
-import org.fisco.bcos.sdk.client.protocol.response.Peers;
-import org.fisco.bcos.sdk.client.protocol.response.PendingTransactions;
-import org.fisco.bcos.sdk.client.protocol.response.PendingTxSize;
-import org.fisco.bcos.sdk.client.protocol.response.QueryGroupStatus;
-import org.fisco.bcos.sdk.client.protocol.response.RecoverGroup;
-import org.fisco.bcos.sdk.client.protocol.response.RemoveGroup;
-import org.fisco.bcos.sdk.client.protocol.response.SealerList;
-import org.fisco.bcos.sdk.client.protocol.response.SendTransaction;
-import org.fisco.bcos.sdk.client.protocol.response.StartGroup;
-import org.fisco.bcos.sdk.client.protocol.response.StopGroup;
-import org.fisco.bcos.sdk.client.protocol.response.SyncStatus;
-import org.fisco.bcos.sdk.client.protocol.response.SystemConfig;
-import org.fisco.bcos.sdk.client.protocol.response.TotalTransactionCount;
-import org.fisco.bcos.sdk.client.protocol.response.TransactionReceiptWithProof;
-import org.fisco.bcos.sdk.client.protocol.response.TransactionWithProof;
+import org.fisco.bcos.sdk.client.protocol.response.*;
 import org.fisco.bcos.sdk.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.eventsub.EventResource;
 import org.fisco.bcos.sdk.model.NodeVersion;
@@ -769,11 +738,25 @@ public interface Client {
     ObserverList getObserverList();
 
     /**
+     * Peer operation: get light node list
+     *
+     * @return light node list
+     */
+    LightList getLightList();
+
+    /**
      * Peer operation: async get observer node list
      *
      * @param callback the callback instance
      */
     void getObserverList(RespCallback<ObserverList> callback);
+
+    /**
+     * Peer operation: async get light node list
+     *
+     * @param callback the callback instance
+     */
+    void getLightList(RespCallback<LightList> callback);
 
     /**
      * Peer operation: get sealer node list

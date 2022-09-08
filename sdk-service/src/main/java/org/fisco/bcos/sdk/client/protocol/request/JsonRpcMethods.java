@@ -23,6 +23,7 @@ public class JsonRpcMethods {
     public static final String GET_SEALER_LIST = "getSealerList";
     public static final String GET_SYSTEM_CONFIG_BY_KEY = "getSystemConfigByKey";
     public static final String GET_OBSERVER_LIST = "getObserverList";
+    public static final String GET_LIGHT_LIST = "getLightList";
     public static final String GET_CONSENSUS_STATUS = "getConsensusStatus";
     public static final String GET_SYNC_STATUS = "getSyncStatus";
     public static final String GET_GROUP_PEERS = "getGroupPeers";
