@@ -31,12 +31,17 @@ public class ConsensusPrecompiled extends Contract {
     public static final String SM_BINARY = String.join("", SM_BINARY_ARRAY);
 
     public static final String[] ABI_ARRAY = {
-        "[{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"string\"}],\"name\":\"addObserver\",\"outputs\":[{\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"string\"}],\"name\":\"remove\",\"outputs\":[{\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"string\"}],\"name\":\"addSealer\",\"outputs\":[{\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
+            "[{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"string\"}],\"name\":\"addObserver\",\"outputs\":[{\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}," +
+                    "{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"string\"}],\"name\":\"addLight\",\"outputs\":[{\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}," +
+                    "{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"string\"}],\"name\":\"remove\",\"outputs\":[{\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}," +
+                    "{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"string\"}],\"name\":\"addSealer\",\"outputs\":[{\"name\":\"\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
     };
 
     public static final String ABI = String.join("", ABI_ARRAY);
 
     public static final String FUNC_ADDOBSERVER = "addObserver";
+
+    public static final String FUNC_ADDLIGHT = "addLight";
 
     public static final String FUNC_REMOVE = "remove";
 
@@ -71,10 +76,40 @@ public class ConsensusPrecompiled extends Contract {
         asyncExecuteTransaction(function, callback);
     }
 
+    public TransactionReceipt addLight(String param0) {
+        final Function function =
+                new Function(
+                        FUNC_ADDLIGHT,
+                        Arrays.<Type>asList(
+                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param0)),
+                        Collections.<TypeReference<?>>emptyList());
+        return executeTransaction(function);
+    }
+
+    public void addLight(String param0, TransactionCallback callback) {
+        final Function function =
+                new Function(
+                        FUNC_ADDLIGHT,
+                        Arrays.<Type>asList(
+                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param0)),
+                        Collections.<TypeReference<?>>emptyList());
+        asyncExecuteTransaction(function, callback);
+    }
+
     public String getSignedTransactionForAddObserver(String param0) {
         final Function function =
                 new Function(
                         FUNC_ADDOBSERVER,
+                        Arrays.<Type>asList(
+                                new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param0)),
+                        Collections.<TypeReference<?>>emptyList());
+        return createSignedTransaction(function);
+    }
+
+    public String getSignedTransactionForAddLight(String param0) {
+        final Function function =
+                new Function(
+                        FUNC_ADDLIGHT,
                         Arrays.<Type>asList(
                                 new org.fisco.bcos.sdk.abi.datatypes.Utf8String(param0)),
                         Collections.<TypeReference<?>>emptyList());
@@ -92,11 +127,33 @@ public class ConsensusPrecompiled extends Contract {
         return new Tuple1<String>((String) results.get(0).getValue());
     }
 
+    public Tuple1<String> getAddLightInput(TransactionReceipt transactionReceipt) {
+        String data = transactionReceipt.getInput().substring(10);
+        final Function function =
+                new Function(
+                        FUNC_ADDLIGHT,
+                        Arrays.<Type>asList(),
+                        Arrays.<TypeReference<?>>asList(new TypeReference<Utf8String>() {}));
+        List<Type> results = FunctionReturnDecoder.decode(data, function.getOutputParameters());
+        return new Tuple1<String>((String) results.get(0).getValue());
+    }
+
     public Tuple1<BigInteger> getAddObserverOutput(TransactionReceipt transactionReceipt) {
         String data = transactionReceipt.getOutput();
         final Function function =
                 new Function(
                         FUNC_ADDOBSERVER,
+                        Arrays.<Type>asList(),
+                        Arrays.<TypeReference<?>>asList(new TypeReference<Int256>() {}));
+        List<Type> results = FunctionReturnDecoder.decode(data, function.getOutputParameters());
+        return new Tuple1<BigInteger>((BigInteger) results.get(0).getValue());
+    }
+
+    public Tuple1<BigInteger> getAddLightOutput(TransactionReceipt transactionReceipt) {
+        String data = transactionReceipt.getOutput();
+        final Function function =
+                new Function(
+                        FUNC_ADDLIGHT,
                         Arrays.<Type>asList(),
                         Arrays.<TypeReference<?>>asList(new TypeReference<Int256>() {}));
         List<Type> results = FunctionReturnDecoder.decode(data, function.getOutputParameters());

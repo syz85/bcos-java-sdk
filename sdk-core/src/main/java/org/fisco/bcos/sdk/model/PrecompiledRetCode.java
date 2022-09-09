@@ -173,6 +173,9 @@ public class PrecompiledRetCode {
     public static final String ALREADY_EXISTS_IN_OBSERVER_LIST =
             "The node already exists in the observerList";
 
+    public static final String ALREADY_EXISTS_IN_LIGHT_LIST =
+            "The node already exists in the lightList";
+
     public static final String ALREADY_REMOVED_FROM_THE_GROUP =
             "The node already has been removed from the group";
 

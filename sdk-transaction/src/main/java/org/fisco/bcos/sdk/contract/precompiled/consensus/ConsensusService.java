@@ -61,10 +61,20 @@ public class ConsensusService {
         return ReceiptParser.parseTransactionReceipt(consensusPrecompiled.addObserver(nodeId));
     }
 
+    public RetCode addLight(String nodeId) throws ContractException {
+        List<String> lightList = client.getLightList().getResult();
+        if (lightList.contains(nodeId)) {
+            throw new ContractException(PrecompiledRetCode.ALREADY_EXISTS_IN_LIGHT_LIST);
+        }
+        return ReceiptParser.parseTransactionReceipt(consensusPrecompiled.addLight(nodeId));
+    }
+
+
     public RetCode removeNode(String nodeId) throws ContractException {
         List<String> sealerList = client.getSealerList().getResult();
         List<String> observerList = client.getObserverList().getResult();
-        if (!sealerList.contains(nodeId) && !observerList.contains(nodeId)) {
+        List<String> lightList = client.getLightList().getResult();
+        if (!sealerList.contains(nodeId) && !observerList.contains(nodeId) && !lightList.contains(nodeId)) {
             throw new ContractException(PrecompiledRetCode.ALREADY_REMOVED_FROM_THE_GROUP);
         }
         return ReceiptParser.parseTransactionReceipt(consensusPrecompiled.remove(nodeId));
