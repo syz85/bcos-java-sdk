@@ -53,6 +53,7 @@ public class JsonTransactionResponse {
     private String groupId;
     private String extraData;
     private SignatureResponse signature;
+    private String submitNodeID;
 
     public JsonTransactionResponse() {}
 
@@ -259,6 +260,14 @@ public class JsonTransactionResponse {
         this.signature = signature;
     }
 
+    public String getSubmitNodeID() {
+        return submitNodeID;
+    }
+
+    public void setSubmitNodeID(String submitNodeID) {
+        this.submitNodeID = submitNodeID;
+    }
+
     private List<RlpType> encodeTransactionResponse(CryptoSuite cryptoSuite)
             throws ClientException {
         if (blockLimit == null
@@ -314,6 +323,9 @@ public class JsonTransactionResponse {
                             signature.getV(), signature.getSignature().substring(startIndex));
         }
         result.addAll(signatureResult.encode());
+        if (submitNodeID != null) {
+            result.add(RlpString.create(Numeric.hexStringToByteArray(submitNodeID)));
+        }
         return result;
     }
 
@@ -357,7 +369,8 @@ public class JsonTransactionResponse {
                 && Objects.equals(chainId, that.chainId)
                 && Objects.equals(groupId, that.groupId)
                 && Objects.equals(extraData, that.extraData)
-                && Objects.equals(signature, that.signature);
+                && Objects.equals(signature, that.signature)
+                && Objects.equals(submitNodeID, that.submitNodeID);
     }
 
     @Override
@@ -378,7 +391,8 @@ public class JsonTransactionResponse {
                 chainId,
                 groupId,
                 extraData,
-                signature);
+                signature,
+                submitNodeID);
     }
 
     @Override
@@ -431,6 +445,8 @@ public class JsonTransactionResponse {
                 + '\''
                 + ", signature="
                 + signature
+                + ", submitNodeID="
+                + submitNodeID
                 + '}';
     }
 }

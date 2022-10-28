@@ -1,6 +1,6 @@
 // Apply the java-library plugin to add support for Java Library
 plugins {
-    id 'com.github.sherter.google-java-format' version '0.8'
+//     id 'com.github.sherter.google-java-format' version '0.8'
     id 'maven-publish'
     id 'org.ajoberstar.grgit' version '4.1.1'
 }
@@ -171,11 +171,11 @@ sourceSets {
     }
 }
 
-googleJavaFormat {
-    options style: 'AOSP'
-    source = sourceSets*.allJava
-    include '**/*.java'
-}
+// googleJavaFormat {
+//     options style: 'AOSP'
+//     source = sourceSets*.allJava
+//     include '**/*.java'
+// }
 
 configurations {
     integrationTestCompile.extendsFrom testCompile
